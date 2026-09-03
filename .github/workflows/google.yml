@@ -36,7 +36,7 @@ name: 'Build and Deploy to GKE'
 on:
   push:
     branches:
-      - '"main"'
+      - '$default-branch'
   workflow_dispatch:
 
 env:
