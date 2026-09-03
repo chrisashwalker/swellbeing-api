@@ -40,7 +40,7 @@ on:
   workflow_dispatch:
 
 env:
-  PROJECT_ID: 'swellbeing' 
+  PROJECT_ID: '147737610371' 
   GAR_LOCATION: 'europe-west2' 
   GKE_CLUSTER: 'autopilot-cluster-1' 
   GKE_ZONE: 'europe-west2-a' 
