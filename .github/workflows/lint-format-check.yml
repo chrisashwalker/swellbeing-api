@@ -1,7 +1,13 @@
-name: Lint and format check
+name: CI checks
 
-on: [push]
-
+on: 
+  push:
+    branches:
+      - main
+  pull_request:
+    branches-ignore:
+      - renovate/**
+    
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,7 +20,8 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install ruff
-    - name: Analyse the code
+        pip install pytest ruff
+    - name: Analyse and test the code
       run: |
         ruff check
+        pytest
