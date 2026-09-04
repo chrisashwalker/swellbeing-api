@@ -24,3 +24,8 @@ dev = [
     "python-dotenv>=1.2.3",
     "ruff>=0.16.5",
 ]
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+]
