@@ -5,8 +5,8 @@ on:
     branches:
       - main
   pull_request:
-    branches-ignore:
-      - renovate/**
+    branches:
+      - main
     
 jobs:
   build:
