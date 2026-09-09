@@ -49,4 +49,4 @@ USER nonroot
 WORKDIR /app
 
 # Run the Flask application
-CMD ["flask", "--app","src/swellbeing_api/app.py", "run", "--host=0.0.0.0"]
+CMD ["gunicorn", "swellbeing_api.app:app", "--config", "gunicorn.conf.py"]
