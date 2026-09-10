@@ -1,17 +1,17 @@
 name: CI checks
 
 on: 
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
     types:
-      - ready_for_review
-    
+      - opened
+      - reopened
+      - synchronize
+   
 jobs:
-  build:
+  build_and_test:
+    if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v7
