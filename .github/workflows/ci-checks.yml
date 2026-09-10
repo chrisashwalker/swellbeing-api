@@ -11,6 +11,7 @@ on:
    
 jobs:
   build_and_test:
+    name: build_and_test
     if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     steps:
