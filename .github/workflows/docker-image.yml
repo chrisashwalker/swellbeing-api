@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+env:
+  TIMESTAMP: null
+
 jobs:
   docker_build:
     name: docker_build
@@ -22,13 +25,16 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Set Timestamp
+        run: echo "TIMESTAMP=$(date --iso-8601)" >> $GITHUB_ENV
+
       - name: Generate image tags
         id: meta
         uses: docker/metadata-action@v6
         with:
           images: chrisashwalker/swellbeing-api
           tags: |
-            type=raw,value=$(date --iso-8601)-${{ github.sha }}
+            type=raw,value=${{ env.TIMESTAMP }}-${{ github.sha }}
 
       - name: Build and push
         uses: docker/build-push-action@v7
