@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 env:
   TIMESTAMP: null
@@ -34,7 +35,9 @@ jobs:
         with:
           images: chrisashwalker/swellbeing-api
           tags: |
-            type=raw,value=${{ env.TIMESTAMP }}-${{ github.sha }}
+            type=raw,value=${{ env.TIMESTAMP }}
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha
 
       - name: Build and push
         uses: docker/build-push-action@v7
