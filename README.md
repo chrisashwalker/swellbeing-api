@@ -2,7 +2,7 @@
 
 ## Notes
 
-- This is a Flask application, with `uv` as the preferred package/project manager. 
+- This is a Flask application, with `uv` as the preferred package/project manager.
 
 - I have installed `ruff` for linting and formatting. I have installed `pytest` for testing. I have installed `gunicorn` as the web server.
 
