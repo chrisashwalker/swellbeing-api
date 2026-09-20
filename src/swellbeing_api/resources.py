@@ -3,19 +3,23 @@ import datetime
 from flask import request
 from flask_restful import Api, Resource, reqparse
 
+from swellbeing_api.auth import require_token
 from swellbeing_api.database import db
 from swellbeing_api.models import User, WaterIntake
 
 
 class HealthCheck(Resource):
+    # noinspection method-may-be-static
     def get(self):
         return {"status": "ok"}
 
 class UserList(Resource):
+    @require_token
     def get(self):
         users = db.session.scalars(db.select(User).order_by(User.id)).all()
         return [user.to_dict() for user in users]
 
+    @require_token
     def post(self):
         user = User()
         db.session.add(user)
@@ -24,10 +28,12 @@ class UserList(Resource):
 
 
 class UserResource(Resource):
+    @require_token
     def get(self, id):
         user = db.get_or_404(User, id)
         return user.to_dict()
 
+    @require_token
     def delete(self, id):
         user = db.session.scalars(db.select(User).filter(User.id == id)).first()
         if user is not None:
@@ -55,6 +61,7 @@ def parse_water_intake_time_range():
 
 
 class WaterIntakeList(Resource):
+    @require_token
     def get(self, user_id):
         from_time, to_time = parse_water_intake_time_range()
         query = (
@@ -69,6 +76,7 @@ class WaterIntakeList(Resource):
         water_intakes = db.session.scalars(query).all()
         return [intake.to_dict() for intake in water_intakes]
 
+    @require_token
     def post(self, user_id):
         data = request.get_json()
         volume = data.get("volume")

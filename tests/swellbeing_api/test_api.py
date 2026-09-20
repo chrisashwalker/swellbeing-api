@@ -6,13 +6,17 @@ import pytest
 @pytest.fixture
 def client(monkeypatch):
     monkeypatch.setenv("TESTING", "true")
+    monkeypatch.setenv("ACCESS_TOKENS", "TESTtxvr2XhcyXi1p3f1vqL5uNE89DnRxzuPTiwxS3E")
     from swellbeing_api.app import create_app
     from swellbeing_api.database import db
 
     app = create_app(testing=True)
     app.config["TESTING"] = True
+
     with app.test_client() as client:
+        client.environ_base["HTTP_AUTHORIZATION"] = "Bearer TESTtxvr2XhcyXi1p3f1vqL5uNE89DnRxzuPTiwxS3E"
         yield client
+
     with app.app_context():
         db.session.remove()
         db.drop_all()
@@ -81,3 +85,10 @@ def test_empty_water_intake_range(client):
     )
     assert response.status_code == 200
     assert response.json == []
+
+
+def test_invalid_auth_token(client):
+    client.environ_base["HTTP_AUTHORIZATION"] = "Bearer INVALID_TOKEN"
+    response = client.post("/users")
+    assert response.status_code == 401
+    assert response.json == {"error": "Invalid auth token"}

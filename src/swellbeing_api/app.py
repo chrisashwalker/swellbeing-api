@@ -11,16 +11,16 @@ def create_app(*, testing=None):
     if testing is None:
         testing = os.getenv("TESTING", "False").lower() == "true"
 
-    app = Flask(__name__)
-    configure_database(app, testing=testing)
-    db.init_app(app)
+    flask_app = Flask(__name__)
+    configure_database(flask_app, testing=testing)
+    db.init_app(flask_app)
 
     if testing:
-        with app.app_context():
+        with flask_app.app_context():
             db.create_all()
 
-    register_resources(app)
-    return app
+    register_resources(flask_app)
+    return flask_app
 
 
 app = create_app()
