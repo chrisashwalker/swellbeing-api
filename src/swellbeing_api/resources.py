@@ -14,10 +14,10 @@ class HealthCheck(Resource):
         return {"status": "ok"}
 
 class UserList(Resource):
-    @require_token
-    def get(self):
-        users = db.session.scalars(db.select(User).order_by(User.id)).all()
-        return [user.to_dict() for user in users]
+    # @require_token
+    # def get(self):
+    #     users = db.session.scalars(db.select(User).order_by(User.id)).all()
+    #     return [user.to_dict() for user in users]
 
     @require_token
     def post(self):
